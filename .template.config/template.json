@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "S. M. JAHANGIR",
+  "classifications": ["Solution" ],
+  "identity": "Prohelika.Templates.NET.CleanCQRS",
+  "name": "Clean CQRS .NET Solution",
+  "sourceName": "CleanCQRS",
+  "preferNameDirectory": true,
+  "shortName": "clean-cqrs",
+  "symbols": {
+    "title": {
+      "type": "parameter",
+      "datatype": "string",
+      "replaces": "PROJECT-TITLE",
+      "isRequired": false,
+      "description": "The display name used in assembly info and as the default title"
+    }
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "exclude": [
+            ".vs/**",
+            "bin/**",
+            "obj/**",
+            "**/Properties/launchSettings.json",
+            ".git/**",
+            ".idea/**",
+            "App_Data/**"
+          ]
+        }
+      ]
+    }
+  ],
+  "tags": {
+    "type": "solution",
+    "language": "C#"
+  }
+}
