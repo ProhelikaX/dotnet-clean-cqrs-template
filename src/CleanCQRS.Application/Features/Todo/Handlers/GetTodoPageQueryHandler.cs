@@ -19,7 +19,7 @@ public class GetTodoPageQueryHandler : PageQueryHandler<GetTodoPageQuery, TodoRe
         CancellationToken cancellationToken)
     {
         var todos = UnitOfWork.Todo.GetAll()
-            .ToPaginated(request.PageNumber, request.PageSize)
+            .AsPage(request.PageNumber, request.PageSize)
             .OrderByDescending(x => x.CreatedAt).ToList();
 
         var todoList = Mapper.Map<IEnumerable<TodoResponse>>(todos);

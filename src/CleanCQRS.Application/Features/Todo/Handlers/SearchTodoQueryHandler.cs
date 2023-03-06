@@ -19,10 +19,10 @@ public class SearchTodoQueryHandler : PageQueryHandler<SearchTodoQuery, TodoResp
         CancellationToken cancellationToken)
     {
         var predicate = (Expression<Func<Domain.Entities.Todo, bool>>)(x =>
-            request.SearchTerm == null || x.Title.Contains(request.SearchTerm));
+            request.SearchTerm == null || x.Title.ToLower().Contains(request.SearchTerm.ToLower()));
 
         var todos = UnitOfWork.Todo.GetAll()
-            .ToPaginated(request.PageNumber, request.PageSize, predicate)
+            .AsPage(request.PageNumber, request.PageSize, predicate)
             .OrderByDescending(x => x.CreatedAt).ToList();
 
         var todoList = Mapper.Map<IEnumerable<TodoResponse>>(todos);

@@ -6,47 +6,47 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CleanCQRS.Infrastructure.Repositories;
 
-public abstract class Repository<T> : IRepository<T> where T : Entity
+public abstract class Repository<TEntity, TId> : IRepository<TEntity, TId> where TEntity : Entity<TId>
 {
-    protected readonly DbSet<T> DbSet;
+    protected readonly DbSet<TEntity> DbSet;
 
     protected Repository(ApplicationDbContext context)
     {
-        DbSet = context.Set<T>();
+        DbSet = context.Set<TEntity>();
     }
 
-    public IQueryable<T> GetAll()
+    public IQueryable<TEntity> GetAll()
     {
         return DbSet.AsNoTracking();
     }
 
-    public virtual async Task<IEnumerable<T>> GetAllAsync()
+    public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
     {
         return await DbSet.AsNoTracking().ToListAsync();
     }
 
-    public virtual async Task<T?> GetByIdAsync(Guid id)
+    public virtual async Task<TEntity?> GetByIdAsync(TId id)
     {
-        return await DbSet.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        return await DbSet.FirstOrDefaultAsync(x => x.Id.Equals(id));
     }
 
-    public async Task<T> AddAsync(T entity)
+    public async Task<TEntity> AddAsync(TEntity entity)
     {
         await DbSet.AddAsync(entity);
         return entity;
     }
 
-    public void Update(T entity)
+    public void Update(TEntity entity)
     {
         DbSet.Update(entity);
     }
 
-    public void Remove(T entity)
+    public void Remove(TEntity entity)
     {
         DbSet.Remove(entity);
     }
 
-    public Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate)
+    public Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate)
     {
         return DbSet.AnyAsync(predicate);
     }
@@ -56,7 +56,7 @@ public abstract class Repository<T> : IRepository<T> where T : Entity
         return DbSet.CountAsync();
     }
 
-    public Task<int> CountAsync(Expression<Func<T, bool>> predicate)
+    public Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate)
     {
         return DbSet.CountAsync(predicate);
     }

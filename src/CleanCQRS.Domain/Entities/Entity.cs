@@ -1,8 +1,8 @@
 namespace CleanCQRS.Domain.Entities;
 
-public abstract class Entity
+public abstract class Entity<TId>
 {
-    public Guid Id { get; set; }
+    public TId Id { get; set; }
 
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
