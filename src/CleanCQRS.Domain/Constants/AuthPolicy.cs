@@ -1,6 +1,6 @@
 namespace CleanCQRS.Domain.Constants;
 
-public static class Policy
+public static class AuthPolicy
 {
     public const string IsAdmin = "IsAdmin";
 }

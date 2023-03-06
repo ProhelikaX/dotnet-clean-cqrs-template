@@ -1,0 +1,15 @@
+@page
+@model CleanCQRS.Web.Pages.Todo
+
+@{
+    ViewData["Title"] = "Todo";
+}
+
+<ul>
+    @foreach (var todo in Model.Todos)
+    {
+        <li>
+            <input type="checkbox" @todo.IsCompleted/> @todo.Title
+        </li>
+    }
+</ul>

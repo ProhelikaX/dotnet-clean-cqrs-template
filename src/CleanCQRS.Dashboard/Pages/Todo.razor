@@ -1,0 +1,63 @@
+@page "/Todo"
+@using CleanCQRS.Application.Features.Todo.Responses
+@inject HttpClient Http
+<h3>Todo</h3>
+
+@if (Todos.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Created
+                </th>
+                <th>
+                    Completed
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var todo in Todos)
+            {
+                <tr>
+                    <td>
+                        @todo.Title
+                    </td>
+                    <td>
+                        @todo.Description
+                    </td>
+                    <td>
+                        @todo.CreatedAt
+                    </td>
+                    <td>
+                        @todo.IsCompleted
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No todos found.</p>
+}
+
+@code {
+    private IEnumerable<TodoResponse> Todos { get; set; } = new List<TodoResponse>();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        
+        var baseUrl = Environment.GetEnvironmentVariable("BASE_API_URL")?? $"http://{Http.BaseAddress.Host}:5205";
+        Console.WriteLine("Base Url: " + baseUrl);
+        var todoResponses = await Http.GetFromJsonAsync<IEnumerable<TodoResponse>>($"{baseUrl}/todo");
+        
+        Todos = todoResponses?? new List<TodoResponse>();
+    }
+}

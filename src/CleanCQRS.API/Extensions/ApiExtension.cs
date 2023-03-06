@@ -1,4 +1,5 @@
 using CleanCQRS.API.Middlewares;
+using CleanCQRS.Domain.Constants;
 using CleanCQRS.Domain.Options;
 
 namespace CleanCQRS.API.Extensions;
@@ -19,6 +20,15 @@ public static class ApiExtension
         services.AddSwaggerCore(appOptions, authOptions);
         services.AddScoped<ExceptionMiddleware>();
         services.AddScoped<LoggerMiddleware>();
+        services.AddCors(options =>
+        {
+            options.AddPolicy(CorsPolicy.AllowAll, builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            });
+        });
 
         return services;
     }
@@ -48,7 +58,7 @@ public static class ApiExtension
 
         app.UseStaticFiles();
 
-        app.UseCors("AllowAll");
+        app.UseCors(CorsPolicy.AllowAll);
 
         app.UseAuthentication();
 

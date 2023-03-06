@@ -24,7 +24,6 @@
             ".vs/**",
             "bin/**",
             "obj/**",
-            "**/Properties/launchSettings.json",
             ".git/**",
             ".idea/**",
             "App_Data/**"

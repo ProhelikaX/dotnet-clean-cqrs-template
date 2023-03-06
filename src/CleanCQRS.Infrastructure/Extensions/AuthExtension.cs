@@ -45,8 +45,8 @@ public static class AuthExtension
                 .RequireClaim("email_verified", "true")
                 .Build();
 
-            o.AddPolicy(Policy.IsAdmin,
-                policy => { policy.RequireAssertion(context => context.User.IsInRole(Role.Admin)); });
+            o.AddPolicy(AuthPolicy.IsAdmin,
+                policy => { policy.RequireAssertion(context => context.User.IsInRole(AuthRole.Admin)); });
         });
 
         return services;
